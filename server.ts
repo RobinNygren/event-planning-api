@@ -2,6 +2,7 @@ import { error } from "console";
 import Express from "express";
 // const { MongoClient } = require("mongodb");
 import Mongoose from "mongoose";
+import { apiRouter } from "./api";
 
 const uri =
   "mongodb+srv://00filisa:QZlSYn2LRcyU0J4y@cluster0.ot1bh.mongodb.net/";
@@ -9,15 +10,24 @@ const uri =
 const port = 3000;
 
 const app = Express();
-const apiRouter = Express.Router();
 
-Mongoose.connect(uri);
-const db = Mongoose.connection;
+app.use((req, res, next) => {
+  console.log("Connected to database");
+  next();
+});
+console.log("Connected to database");
 
-db.on("error", (error: Error) => console.error(error));
-db.once("open", () => console.log("Connected to database"));
+// const apiRouter = Express.Router();
+
+// Mongoose.connect(uri);
+// const db = Mongoose.connection;
+
+// db.on("error", (error: Error) => console.error(error));
+// db.once("open", () => console.log("Connected to database"));
 
 app.use(Express.static("../client/public/dist"));
+
+app.use("/api", apiRouter);
 
 apiRouter.get("*", (req, res) => {
   console.log("API request received");
