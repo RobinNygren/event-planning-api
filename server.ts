@@ -1,38 +1,26 @@
-import { error } from "console";
-import Express from "express";
-// const { MongoClient } = require("mongodb");
-import Mongoose from "mongoose";
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import eventRouter from "./routes/eventRoutes";
 
-const uri =
-  "mongodb+srv://00filisa:QZlSYn2LRcyU0J4y@cluster0.ot1bh.mongodb.net/";
+dotenv.config();
 
-const port = 3000;
+const app = express();
+const port = process.env.PORT || 3000;
 
-const app = Express();
-const apiRouter = Express.Router();
+// Middleware to parse incoming JSON requests
+app.use(express.json());
 
-Mongoose.connect(uri);
-const db = Mongoose.connection;
+// MongoDB connection setup
+mongoose
+  .connect(process.env.MONGO_URI || "")
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.error("Database connection error: ", err));
 
-db.on("error", (error: Error) => console.error(error));
-db.once("open", () => console.log("Connected to database"));
+// Use the event routes
+app.use("/events", eventRouter); // Properly using the event router
 
-app.use(Express.static("../client/public/dist"));
-
-apiRouter.get("*", (req, res) => {
-  console.log("API request received");
-  res.send(true);
-});
-
-app.use((req, res, next) => {
-  console.log("Request received: " + req.url);
-  next();
-});
-
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
+// Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

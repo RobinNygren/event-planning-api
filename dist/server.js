@@ -1,48 +1,25 @@
 "use strict";
-var __create = Object.create;
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
-var import_express = __toESM(require("express"));
-var import_mongoose = __toESM(require("mongoose"));
-const uri = "mongodb+srv://00filisa:QZlSYn2LRcyU0J4y@cluster0.ot1bh.mongodb.net/";
-const port = 3e3;
-const app = (0, import_express.default)();
-const apiRouter = import_express.default.Router();
-import_mongoose.default.connect(uri);
-const db = import_mongoose.default.connection;
-db.on("error", (error2) => console.error(error2));
-db.once("open", () => console.log("Connected to database"));
-app.use(import_express.default.static("../client/public/dist"));
-apiRouter.get("*", (req, res) => {
-  console.log("API request received");
-  res.send(true);
-});
-app.use((req, res, next) => {
-  console.log("Request received: " + req.url);
-  next();
-});
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const mongoose_1 = __importDefault(require("mongoose"));
+const dotenv_1 = __importDefault(require("dotenv"));
+const eventRoutes_1 = __importDefault(require("./routes/eventRoutes"));
+dotenv_1.default.config();
+const app = (0, express_1.default)();
+const port = process.env.PORT || 3000;
+// Middleware to parse incoming JSON requests
+app.use(express_1.default.json());
+// MongoDB connection setup
+mongoose_1.default
+    .connect(process.env.MONGO_URI || "")
+    .then(() => console.log("Connected to MongoDB"))
+    .catch((err) => console.error("Database connection error: ", err));
+// Use the event routes
+app.use("/events", eventRoutes_1.default); // Properly using the event router
+// Start the server
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+    console.log(`Server is running on port ${port}`);
 });
