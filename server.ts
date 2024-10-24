@@ -3,19 +3,20 @@ import Express from "express";
 // const { MongoClient } = require("mongodb");
 import Mongoose from "mongoose";
 import { apiRouter } from "./api";
+import { db } from "./api";
 
-const uri =
-  "mongodb+srv://00filisa:QZlSYn2LRcyU0J4y@cluster0.ot1bh.mongodb.net/";
+// const uri =
+//   "mongodb+srv://00filisa:QZlSYn2LRcyU0J4y@cluster0.ot1bh.mongodb.net/";
 
 const port = 3000;
 
 const app = Express();
 
 app.use((req, res, next) => {
-  console.log("Connected to database");
+  console.log("Got a request to the url: " + req.url);
   next();
 });
-console.log("Connected to database");
+// console.log("Connected to database");
 
 // const apiRouter = Express.Router();
 
@@ -24,7 +25,6 @@ console.log("Connected to database");
 
 // db.on("error", (error: Error) => console.error(error));
 // db.once("open", () => console.log("Connected to database"));
-
 app.use(Express.static("../client/public/dist"));
 
 app.use("/api", apiRouter);

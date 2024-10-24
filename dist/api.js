@@ -28,21 +28,24 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var api_exports = {};
 __export(api_exports, {
-  apiRouter: () => apiRouter
+  apiRouter: () => apiRouter,
+  db: () => db
 });
 module.exports = __toCommonJS(api_exports);
 var import_mongoose = __toESM(require("mongoose"));
 var import_express = __toESM(require("express"));
 const apiRouter = import_express.default.Router();
+const db = import_mongoose.default.connection;
 apiRouter.use(import_express.default.json());
+const uri = "mongodb+srv://00filisa:QZlSYn2LRcyU0J4y@cluster0.ot1bh.mongodb.net/";
 apiRouter.use((req, res, next) => {
-  import_mongoose.default.connect(
-    "mongodb+srv://00filisa:QZlSYn2LRcyU0J4y@cluster0.ot1bh.mongodb.net/"
-  );
-  console.log("Connected to database");
+  import_mongoose.default.connect(uri);
   next();
 });
+db.on("error", (error) => console.error(error));
+db.once("open", () => console.log("Connected to database"));
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  apiRouter
+  apiRouter,
+  db
 });

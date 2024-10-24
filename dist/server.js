@@ -23,14 +23,12 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 var import_express = __toESM(require("express"));
 var import_api = require("./api");
-const uri = "mongodb+srv://00filisa:QZlSYn2LRcyU0J4y@cluster0.ot1bh.mongodb.net/";
 const port = 3e3;
 const app = (0, import_express.default)();
 app.use((req, res, next) => {
-  console.log("Connected to database");
+  console.log("Got a request to the url: " + req.url);
   next();
 });
-console.log("Connected to database");
 app.use(import_express.default.static("../client/public/dist"));
 app.use("/api", import_api.apiRouter);
 import_api.apiRouter.get("*", (req, res) => {
