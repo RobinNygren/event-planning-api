@@ -22,9 +22,15 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var import_express = __toESM(require("express"));
+var import_mongoose = __toESM(require("mongoose"));
+const uri = "mongodb+srv://00filisa:QZlSYn2LRcyU0J4y@cluster0.ot1bh.mongodb.net/";
 const port = 3e3;
 const app = (0, import_express.default)();
 const apiRouter = import_express.default.Router();
+import_mongoose.default.connect(uri);
+const db = import_mongoose.default.connection;
+db.on("error", (error2) => console.error(error2));
+db.once("open", () => console.log("Connected to database"));
 app.use(import_express.default.static("../client/public/dist"));
 apiRouter.get("*", (req, res) => {
   console.log("API request received");
