@@ -10,7 +10,7 @@ const eventRoutes_1 = __importDefault(require("./routes/eventRoutes"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
-// Middleware to parse incoming JSON requests
+// Middleware
 app.use(express_1.default.json());
 // MongoDB connection setup
 mongoose_1.default
@@ -18,7 +18,7 @@ mongoose_1.default
     .then(() => console.log("Connected to MongoDB"))
     .catch((err) => console.error("Database connection error: ", err));
 // Use the event routes
-app.use("/events", eventRoutes_1.default); // Properly using the event router
+app.use("/events", eventRoutes_1.default);
 // Start the server
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const Event_1 = __importDefault(require("../models/Event")); // Import Event model and type
+const Event_1 = __importDefault(require("../models/Event"));
 const router = (0, express_1.Router)();
 // POST /events - Create a new event
 router.post("/", async (req, res, next) => {
