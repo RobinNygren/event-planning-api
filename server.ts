@@ -4,13 +4,16 @@ import Express from "express";
 import Mongoose from "mongoose";
 import { apiRouter } from "./api";
 import { db } from "./api";
+import dotenv from "dotenv";
 
 // const uri =
 //   "mongodb+srv://00filisa:QZlSYn2LRcyU0J4y@cluster0.ot1bh.mongodb.net/";
 
-const port = 3000;
+dotenv.config();
 
 const app = Express();
+
+const port = process.env.PORT || 3000;
 
 app.use((req, res, next) => {
   console.log("Got a request to the url: " + req.url);
@@ -43,6 +46,7 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+// Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

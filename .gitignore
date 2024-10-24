@@ -24,4 +24,6 @@ package-lock.json
 *.temp
 
 # Environment variables
-.env
+
+# Ignore compiled output
+/dist
