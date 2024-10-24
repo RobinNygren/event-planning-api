@@ -8,7 +8,7 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Middleware to parse incoming JSON requests
+// Middleware
 app.use(express.json());
 
 // MongoDB connection setup
@@ -18,7 +18,7 @@ mongoose
   .catch((err) => console.error("Database connection error: ", err));
 
 // Use the event routes
-app.use("/events", eventRouter); // Properly using the event router
+app.use("/events", eventRouter);
 
 // Start the server
 app.listen(port, () => {

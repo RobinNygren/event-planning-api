@@ -1,5 +1,5 @@
 import { Router, Request, Response, NextFunction } from "express";
-import Event, { IEvent } from "../models/Event"; // Import Event model and type
+import Event, { IEvent } from "../models/Event";
 
 const router = Router();
 
